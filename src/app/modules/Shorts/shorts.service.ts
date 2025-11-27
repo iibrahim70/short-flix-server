@@ -7,21 +7,16 @@ import { appLogger } from '@/logger';
 import colors from 'colors';
 
 const createShortToDB = async (payload: IShort) => {
-  let duration = 0;
-
   try {
-    duration = await getVideoDurationInSeconds(payload.videoUrl);
+    const duration = await getVideoDurationInSeconds(payload?.videoUrl);
+    payload.duration = duration;
   } catch (error) {
     appLogger.error(
-      colors.red.bold(`❌ Error fetching video duration:: ${error}`),
+      colors.red.bold(`❌ Error fetching video duration: ${error}`),
     );
   }
 
-  const result = await Short.create({
-    ...payload,
-    duration,
-  });
-
+  const result = await Short.create({ payload });
   return result;
 };
 
@@ -41,6 +36,18 @@ const updateShortByIdFromDB = async (
       httpStatus.NOT_FOUND,
       `Short with ID ${slug} was not found`,
     );
+  }
+
+  // If videoUrl is updated, fetch new duration
+  if (payload?.videoUrl) {
+    try {
+      const duration = await getVideoDurationInSeconds(payload.videoUrl);
+      payload.duration = duration;
+    } catch (error) {
+      appLogger.error(
+        colors.red.bold(`❌ Error fetching video duration: ${error}`),
+      );
+    }
   }
 
   const result = Short.findByIdAndUpdate(slug, payload, {
