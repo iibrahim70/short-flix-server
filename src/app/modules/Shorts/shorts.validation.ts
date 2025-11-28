@@ -6,6 +6,7 @@ export const ShortValidationSchema = z.object({
     description: z.string(),
     thumbnail: z.url(),
     videoUrl: z.url(),
+    views: z.number(),
     tags: z.array(z.string()),
   }),
 });

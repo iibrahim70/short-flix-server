@@ -16,7 +16,7 @@ const createShortToDB = async (payload: IShort) => {
     );
   }
 
-  const result = await Short.create({ payload });
+  const result = await Short.create(payload);
   return result;
 };
 
