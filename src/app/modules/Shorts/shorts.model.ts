@@ -23,6 +23,10 @@ const shortSchema = new Schema<IShort>(
       type: Number,
       required: true,
     },
+    views: {
+      type: Number,
+      required: true,
+    },
     tags: {
       type: [String],
       required: true,

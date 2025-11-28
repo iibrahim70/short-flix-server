@@ -4,5 +4,6 @@ export interface IShort {
   thumbnail: string;
   videoUrl: string;
   duration: number;
+  views: number;
   tags: string[];
 }
