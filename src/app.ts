@@ -48,7 +48,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // API routes
-app.use('/api/v1', router);
+app.use('/api', router);
 
 // Error-handling middlewares
 app.use(globalErrorHandler); // Global error handler
