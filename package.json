@@ -1,6 +1,6 @@
 {
-  "name": "portfolio-server",
-  "version": "3.0.0",
+  "name": "short-flix-server",
+  "version": "1.0.0",
   "description": "",
   "main": "./dist/server.js",
   "scripts": {
