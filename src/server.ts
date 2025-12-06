@@ -10,7 +10,7 @@ let server: Server;
 (async () => {
   try {
     const connectionInstance = await mongoose.connect(
-      `${config.database.dbURL}/${config.database.dbName}`,
+      `${config.database.url}/${config.database.name}`,
     );
 
     appLogger.info(

@@ -1,6 +1,6 @@
 import { ZodError } from 'zod';
 import httpStatus from 'http-status';
-import { IErrorResponse } from '@/interfaces';
+import { IErrorResponse } from '@/interfaces/error.interface';
 
 export const handleZodError = (err: ZodError): IErrorResponse => {
   const errors = err?.issues?.map((issue) => {

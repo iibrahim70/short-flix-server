@@ -11,7 +11,7 @@ export const config = {
   },
 
   database: {
-    dbURL: process.env.DATABASE_URL,
-    dbName: process.env.DB_NAME,
+    url: process.env.DATABASE_URL,
+    name: process.env.DB_NAME,
   },
 };

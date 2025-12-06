@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { IErrorResponse } from '@/interfaces';
+import { IErrorResponse } from '@/interfaces/error.interface';
 import httpStatus from 'http-status';
 
 export const handleValidationError = (
