@@ -4,7 +4,7 @@ import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import stripAnsi from 'strip-ansi';
 import util from 'util';
-import { env } from '@/config';
+import { config } from '@/config';
 
 // Define log levels with severity
 const levels = {
@@ -24,7 +24,8 @@ const levelColors = {
 winston.addColors(levelColors);
 
 // Set log level based on environment
-const getLogLevel = () => (env.nodeEnv === 'development' ? 'http' : 'warn');
+const getLogLevel = () =>
+  config.server.nodeEnv === 'development' ? 'http' : 'warn';
 
 // Filter logs by specific level
 const levelFilter = (level: string) =>

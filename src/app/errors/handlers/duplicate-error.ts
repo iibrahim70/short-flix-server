@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { IErrorResponse } from '@/interfaces/error.interface';
+import { IErrorResponse } from '@/interfaces';
 import httpStatus from 'http-status';
 
 export const handleDuplicateError = (err: any): IErrorResponse => {
@@ -8,16 +8,14 @@ export const handleDuplicateError = (err: any): IErrorResponse => {
   const key = Object.keys(err?.keyPattern || {})[0];
   const value = err?.keyValue?.[key];
 
-  const errorDetails = [
-    {
-      path: key,
-      message: `'${value}' is already exists`,
-    },
-  ];
-
   return {
     statusCode: httpStatus.CONFLICT,
     message: `Conflict: The value '${value}' for '${key}' is already in use.`,
-    errorDetails,
+    errors: [
+      {
+        field: key,
+        description: `'${value}' is already exists`,
+      },
+    ],
   };
 };

@@ -2,15 +2,15 @@ import mongoose from 'mongoose';
 import app from './app';
 import { appLogger } from './app/logger';
 import colors from 'colors';
-import { env } from './app/config';
 import { Server } from 'http';
+import { config } from '@/config';
 
 let server: Server;
 
 (async () => {
   try {
     const connectionInstance = await mongoose.connect(
-      `${env.dbURL}/${env.dbName}`,
+      `${config.database.dbURL}/${config.database.dbName}`,
     );
 
     appLogger.info(
@@ -19,9 +19,11 @@ let server: Server;
       ),
     );
 
-    server = app.listen(Number(env.port), () => {
+    server = app.listen(Number(config.server.port), () => {
       appLogger.info(
-        colors.green.bold(`🚀 Server running on localhost :${env.port}`),
+        colors.green.bold(
+          `🚀 Server running on localhost :${config.server.port}`,
+        ),
       );
     });
   } catch (error) {

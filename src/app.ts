@@ -4,15 +4,15 @@ import compression from 'compression';
 import requestIp from 'request-ip';
 import helmet from 'helmet';
 import express, { Request, Response } from 'express';
-import { corsConfig, env, rateLimiter } from './app/config';
 import { requestLogger } from './app/logger';
 import router from './app/routes';
-import { globalErrorHandler, notFound } from './app/middlewares';
+import { globalErrorHandler, notFound, rateLimiter } from './app/middlewares';
+import { config } from '@/config';
 
 const app = express();
 
 // Middleware setup
-app.use(cors(corsConfig)); // CORS
+app.use(cors()); // CORS
 app.use(cookieParser()); // Cookie parsing
 app.use(compression()); // Compress responses
 app.use(requestIp.mw()); // Extract IP address
@@ -33,7 +33,7 @@ app.get('/', (req: Request, res: Response) => {
   res.json({
     status: 'OK',
     message: 'Short Flix API is up and running.',
-    environment: env.nodeEnv,
+    environment: config.server.nodeEnv,
     version: 'v1.0.0',
     uptime: `${Math.floor(process.uptime())}s`,
     timestamp: new Date().toISOString(),

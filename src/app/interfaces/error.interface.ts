@@ -1,10 +1,10 @@
-export interface IFieldErrorDetail {
-  path: string;
-  message: string;
+export interface IFieldError {
+  field: string;
+  description: string;
 }
 
 export interface IErrorResponse {
   statusCode: number;
   message: string;
-  errorDetails: IFieldErrorDetail[];
+  errors: IFieldError[];
 }

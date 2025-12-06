@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { env } from '@/config';
+import { config } from '@/config';
 import {
   ApiError,
   handleCastError,
   handleDuplicateError,
   handleValidationError,
+  handleZodError,
 } from '@/errors';
-import { handleZodError } from '@/errors/handleZodError';
 import { ErrorRequestHandler } from 'express';
 import httpStatus from 'http-status';
 import { ZodError } from 'zod';
@@ -22,53 +22,53 @@ export const globalErrorHandler: ErrorRequestHandler = (
   // Setting default values for the response
   let statusCode = err?.statusCode || httpStatus.INTERNAL_SERVER_ERROR;
   let message = err?.message || httpStatus['500_MESSAGE'];
-  let errorDetails = [
+  let errors = [
     {
-      path: '',
-      message: err?.message || httpStatus['500_MESSAGE'],
+      field: '',
+      description: err?.message || httpStatus['500_MESSAGE'],
     },
   ];
 
   // Handling Zod validation errors
   if (err instanceof ZodError) {
-    const simplifiedError = handleZodError(err);
-    statusCode = simplifiedError?.statusCode;
-    message = simplifiedError?.message;
-    errorDetails = simplifiedError?.errorDetails;
+    const simplified = handleZodError(err);
+    statusCode = simplified?.statusCode;
+    message = simplified?.message;
+    errors = simplified?.errors;
   }
 
   // Handling mongoose validation errors
   else if (err?.name === 'ValidationError') {
-    const simplifiedError = handleValidationError(err);
-    statusCode = simplifiedError?.statusCode;
-    message = simplifiedError?.message;
-    errorDetails = simplifiedError?.errorDetails;
+    const simplified = handleValidationError(err);
+    statusCode = simplified?.statusCode;
+    message = simplified?.message;
+    errors = simplified?.errors;
   }
 
   // Handling duplicate errors
   else if (err?.code === 11000) {
-    const simplifiedError = handleDuplicateError(err);
-    statusCode = simplifiedError?.statusCode;
-    message = simplifiedError?.message;
-    errorDetails = simplifiedError?.errorDetails;
+    const simplified = handleDuplicateError(err);
+    statusCode = simplified?.statusCode;
+    message = simplified?.message;
+    errors = simplified?.errors;
   }
 
   // Handling Cast errors
   else if (err?.name === 'CastError') {
-    const simplifiedError = handleCastError(err);
-    statusCode = simplifiedError?.statusCode;
-    message = simplifiedError?.message;
-    errorDetails = simplifiedError?.errorDetails;
+    const simplified = handleCastError(err);
+    statusCode = simplified?.statusCode;
+    message = simplified?.message;
+    errors = simplified?.errors;
   }
 
   // Handling ApiErrors (custom error class)
   else if (err instanceof ApiError) {
     statusCode = err?.statusCode;
     message = err.message;
-    errorDetails = [
+    errors = [
       {
-        path: '',
-        message: err?.message,
+        field: '',
+        description: err?.message,
       },
     ];
   }
@@ -76,10 +76,10 @@ export const globalErrorHandler: ErrorRequestHandler = (
   // Handling general errors (instances of Error)
   else if (err instanceof Error) {
     message = err?.message;
-    errorDetails = [
+    errors = [
       {
-        path: '',
-        message: err?.message,
+        field: '',
+        description: err?.message,
       },
     ];
   }
@@ -88,7 +88,7 @@ export const globalErrorHandler: ErrorRequestHandler = (
   res.status(statusCode).json({
     success: false,
     message,
-    errorDetails,
-    stack: env.nodeEnv === 'development' ? err?.stack : null,
+    errors,
+    stack: config.server.nodeEnv === 'development' ? err?.stack : null,
   });
 };
