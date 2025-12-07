@@ -1,6 +1,6 @@
 import { CastError } from 'mongoose';
 import httpStatus from 'http-status';
-import { IErrorResponse } from '@/interfaces/error.interface';
+import { IErrorResponse } from '@/types';
 
 export const handleCastError = (err: CastError): IErrorResponse => {
   return {

@@ -4,10 +4,10 @@ import compression from 'compression';
 import requestIp from 'request-ip';
 import helmet from 'helmet';
 import express, { Request, Response } from 'express';
-import { requestLogger } from './app/logger';
+import { globalErrorHandler, notFound, rateLimiter } from './middlewares';
+import { requestLogger } from './logger';
+import { config } from './config';
 import router from './app/routes';
-import { globalErrorHandler, notFound, rateLimiter } from './app/middlewares';
-import { config } from '@/config';
 
 const app = express();
 

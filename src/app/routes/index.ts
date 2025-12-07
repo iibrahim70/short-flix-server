@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { ShortRouter } from '@/modules/Shorts/shorts.route';
+import { ShortRouter } from '../modules/Shorts/shorts.route';
 
 const router = Router();
 

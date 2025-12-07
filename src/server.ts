@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
-import app from './app';
-import { appLogger } from './app/logger';
 import colors from 'colors';
 import { Server } from 'http';
-import { config } from '@/config';
+import { config } from './config';
+import { appLogger } from './logger';
+import app from './app';
 
 let server: Server;
 

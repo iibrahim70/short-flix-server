@@ -3,8 +3,8 @@ import { IShort } from './shorts.interface';
 import { Short } from './shorts.model';
 import { ApiError } from '@/errors';
 import { getVideoDurationInSeconds } from 'get-video-duration';
-import { appLogger } from '@/logger';
 import colors from 'colors';
+import { appLogger } from '@/logger';
 
 const createShortToDB = async (payload: IShort) => {
   try {
