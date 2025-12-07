@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
-  "include": ["src/**/*"],
-  "exclude": ["./node_modules", "./dist", "./logs"],
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "logs"],
 
   "compilerOptions": {
     "target": "es2021",
